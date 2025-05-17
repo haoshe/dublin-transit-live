@@ -73,4 +73,9 @@ MIT License (or update depending on preference)
 
 ## ✍️ Author
 
-Created by [Your Name] as part of an internship project initiative.
+Created by Hao She as part of an internship project initiative.
+
+## 📔 Development Log
+
+Daily progress and design reflections are recorded in [docs/dev-log.md](./docs/dev-log.md).
+
