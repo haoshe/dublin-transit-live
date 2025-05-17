@@ -55,7 +55,9 @@ To help users in Dublin quickly find real-time public transportation options bet
   - Maps JavaScript API
   - Places Autocomplete API
   - Directions API
-- [NTA GTFS & GTFS-RT Feed]([https://data.smartdublin.ie/dataset/national-public-transport-data](https://developers.google.com/transit/gtfs-realtime))
+- [NTA GTFS & GTFS_RT Feed Registration](https://developer.nationaltransport.ie)
+- [NTA GTFS & GTFS-RT Feed](https://developers.google.com/transit/gtfs-realtime)
+- [NTA real time passenger information](https://data.gov.ie/dataset/realtime-passenger-information-gtfsr)  
 
 ---
 
