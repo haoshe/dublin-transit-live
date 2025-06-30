@@ -26,7 +26,7 @@ To help users in Dublin quickly find real-time public transportation options bet
 
 | Layer        | Tool / Framework                   |
 |--------------|------------------------------------|
-| Frontend     | React + Google Maps JavaScript API |
+| Frontend     | React + Google Maps TypeScript API |
 | Backend      | Node.js + Express                  |
 | Real-Time Data | GTFS + GTFS-RT (National Transport Authority) |
 | Mapping      | Google Maps, Places API, Directions API |
