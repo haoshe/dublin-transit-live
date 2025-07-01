@@ -2,7 +2,8 @@ import React, { useRef, useState } from "react";
 import {
   LoadScript,
   GoogleMap,
-  Autocomplete
+  Autocomplete,
+  DirectionsRenderer
 } from "@react-google-maps/api";
 
 const mapContainerStyle = {
@@ -21,6 +22,8 @@ const App = () => {
 
   const [startLocation, setStartLocation] = useState<string | null>(null);
   const [endLocation, setEndLocation] = useState<string | null>(null);
+  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
+
 
   const handlePlaceChange = (type: "start" | "end") => {
     const ref = type === "start" ? startRef.current : endRef.current;
@@ -36,6 +39,28 @@ const App = () => {
       }
     }
   };
+
+  const calculateRoute = () => {
+    if (!startLocation || !endLocation) return;
+
+    const directionsService = new google.maps.DirectionsService();
+
+    directionsService.route(
+      {
+        origin: startLocation,
+        destination: endLocation,
+        travelMode: google.maps.TravelMode.TRANSIT,
+      },
+      (result, status) => {
+        if (status === "OK" && result) {
+          setDirections(result);
+        } else {
+          console.error("Directions request failed:", status);
+        }
+      }
+    );
+  };
+  
 
   return (
     <LoadScript
@@ -68,11 +93,17 @@ const App = () => {
           </Autocomplete>
         </div>
 
+        <button onClick={calculateRoute} style={{ marginBottom: "1rem", padding: "0.5rem 1rem" }}>
+          Show Transit Route
+        </button>
+
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           center={center}
           zoom={12}
-        />
+        >
+          {directions && <DirectionsRenderer directions={directions} />}
+        </GoogleMap>
       </div>
     </LoadScript>
   );
