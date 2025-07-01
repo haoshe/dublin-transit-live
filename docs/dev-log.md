@@ -69,3 +69,40 @@ This allows:
 Once the feature or setup is complete and tested, I can then **merge it back into `main`**.
 
 This will help maintain a clean commit history and avoid accidentally pushing untested or incomplete code to the main branch.
+
+## 🗓️ 2025-07-01 Day 2
+
+### ✅ Summary
+I implemented transit route rendering using the Google Directions API and followed a clean Git workflow to structure my development process.
+
+---
+
+### 🔧 Tasks Completed
+- ✅ Set up Google Maps Autocomplete fields for **start** and **end** locations.
+- ✅ Integrated `google.maps.DirectionsService` to request **transit routes**.
+- ✅ Rendered routes visually using `<DirectionsRenderer />` on the map.
+- ✅ Verified successful rendering of selected routes in the frontend.
+
+---
+
+### 🌱 Git Workflow Followed
+- Created a new branch: `feature/google-directions`
+- Implemented and tested feature in isolation.
+- Committed changes and pushed branch to GitHub.
+- Opened a **Pull Request** and merged into `main` via GitHub UI.
+- Pulled latest `main` branch locally.
+- Deleted the local feature branch to keep the repo clean.
+
+---
+
+### 🧠 Lessons Learned
+- 🔀 Using feature branches helps keep the Git history organized.
+- ✅ Always test features locally before merging.
+- 🗃️ GitHub PRs give a clear and reviewable trail of progress.
+- 🚫 Avoid merging locally before doing it on GitHub — keep one source of truth.
+
+---
+
+### 📍 Next Steps
+- Begin working on sending selected location coordinates to the backend (instead of just addresses).
+- Display transit stops and handle real-time data(GTFS-RT).
