@@ -1,3 +1,4 @@
+// Import necessary components from React and the Google Maps API
 import React, { useRef, useState } from "react";
 import {
   LoadScript,
@@ -6,25 +7,29 @@ import {
   DirectionsRenderer
 } from "@react-google-maps/api";
 
+// Define map container dimensions
 const mapContainerStyle = {
   width: "100%",
   height: "500px"
 };
 
+// Center the map on Dublin
 const center = {
   lat: 53.3498,  // Dublin latitude
   lng: -6.2603   // Dublin longitude
 };
 
 const App = () => {
+  // Refs for start and end autocomplete inputs
   const startRef = useRef<google.maps.places.Autocomplete | null>(null);
   const endRef = useRef<google.maps.places.Autocomplete | null>(null);
 
+  // State to store selected locations and route directions
   const [startLocation, setStartLocation] = useState<string | null>(null);
   const [endLocation, setEndLocation] = useState<string | null>(null);
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
 
-
+  // Handle selection of start/end locations from Autocomplete
   const handlePlaceChange = (type: "start" | "end") => {
     const ref = type === "start" ? startRef.current : endRef.current;
     const place = ref?.getPlace();
@@ -40,6 +45,7 @@ const App = () => {
     }
   };
 
+  // Call Google Directions API to calculate transit route
   const calculateRoute = () => {
     if (!startLocation || !endLocation) return;
 
