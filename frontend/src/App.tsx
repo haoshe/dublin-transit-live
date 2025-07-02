@@ -19,42 +19,54 @@ const center = {
   lng: -6.2603   // Dublin longitude
 };
 
+const libraries: ("places")[] = ["places"];
+
 const App = () => {
+
+  // TODO: Migrate to @googlemaps/places-webcomponent when Autocomplete is fully deprecated
   // Refs for start and end autocomplete inputs
   const startRef = useRef<google.maps.places.Autocomplete | null>(null);
   const endRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   // State to store selected locations and route directions
-  const [startLocation, setStartLocation] = useState<string | null>(null);
-  const [endLocation, setEndLocation] = useState<string | null>(null);
+  const [startAddress, setStartAddress] = useState<string | null>(null);
+  const [endAddress, setEndAddress] = useState<string | null>(null);
+  const [startCoords, setStartCoords] = useState<{lat: number, lng: number} | null>(null);
+  const [endCoords, setEndCoords] = useState<{lat: number, lng: number} | null>(null);
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
 
   // Handle selection of start/end locations from Autocomplete
   const handlePlaceChange = (type: "start" | "end") => {
     const ref = type === "start" ? startRef.current : endRef.current;
     const place = ref?.getPlace();
-    if (place && place.formatted_address) {
-      const location = place.formatted_address;
+    if (place && place.formatted_address && place.geometry?.location) {
+      const address = place.formatted_address;
+      const coords = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      };
       if (type === "start") {
-        setStartLocation(location);
-        console.log("Start:", location);
+        setStartAddress(address);
+        setStartCoords(coords);
+        console.log("Start:", address, coords);
       } else {
-        setEndLocation(location);
-        console.log("End:", location);
+        setEndAddress(address);
+        setEndCoords(coords);
+        console.log("End:", address, coords);
       }
     }
   };
 
   // Call Google Directions API to calculate transit route
   const calculateRoute = () => {
-    if (!startLocation || !endLocation) return;
+    if (!startCoords || !endCoords) return;
 
     const directionsService = new google.maps.DirectionsService();
 
     directionsService.route(
       {
-        origin: startLocation,
-        destination: endLocation,
+        origin: startCoords,
+        destination: endCoords,
         travelMode: google.maps.TravelMode.TRANSIT,
       },
       (result, status) => {
@@ -71,7 +83,7 @@ const App = () => {
   return (
     <LoadScript
       googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY!}
-      libraries={["places"]}
+      libraries={libraries}
     >
       <div style={{ padding: "1rem" }}>
         <h2>Dublin Transit Live</h2>
