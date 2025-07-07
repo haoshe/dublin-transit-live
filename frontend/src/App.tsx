@@ -78,6 +78,29 @@ const App = () => {
       }
     );
   };
+
+  const sendCoordinatesToBackend = async () => {
+    if (!startCoords || !endCoords) return;
+
+    try {
+      const response = await fetch("/api/coordinates", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          start: startCoords,
+          end: endCoords,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Backend response:", data);
+    } catch (error) {
+      console.error("Error sending coordinates:", error);
+    }
+  };
+
   
 
   return (
@@ -111,7 +134,12 @@ const App = () => {
           </Autocomplete>
         </div>
 
-        <button onClick={calculateRoute} style={{ marginBottom: "1rem", padding: "0.5rem 1rem" }}>
+        <button 
+          onClick={() => {
+            calculateRoute();
+            sendCoordinatesToBackend();
+          }} 
+          style={{ marginBottom: "1rem", padding: "0.5rem 1rem" }}>
           Show Transit Route
         </button>
 
@@ -128,4 +156,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
 
