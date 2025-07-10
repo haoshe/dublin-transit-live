@@ -106,3 +106,48 @@ I implemented transit route rendering using the Google Directions API and follow
 ### 📍 Next Steps
 - Begin working on sending selected location coordinates to the backend (instead of just addresses).
 - Display transit stops and handle real-time data(GTFS-RT).
+
+
+
+## 📅 2025-07-10 – Day 3: Coordinates + GTFS-RT Integration
+
+### ✅ Summary
+Completed backend and frontend integration to send selected location **coordinates** instead of just addresses, and successfully **fetched real-time transit data** using the GTFS-RT feed from the National Transport Authority (NTA).
+
+---
+
+### 🔧 Tasks Completed
+
+- ✅ Updated frontend to extract **latitude/longitude coordinates** from Google Maps Autocomplete for both start and end locations.
+- ✅ Sent coordinates to the backend via a `POST /api/coordinates` route.
+- ✅ Created backend Express route to:
+  - Receive and log incoming coordinate data.
+  - Fetch **real-time GTFS-RT feed** from NTA.
+  - Decode the feed using `gtfs-realtime-bindings`.
+  - Filter relevant entities (`tripUpdate`, `vehicle`) and return them in the API response.
+- ✅ Verified that GTFS-RT feed is being correctly parsed and delivered to the frontend.
+
+---
+
+### 🧪 Tested By
+- Selecting start and end locations via Google Autocomplete.
+- Confirming the coordinates appear in browser console.
+- Verifying the backend logs incoming coordinates.
+- Inspecting network response to see valid GTFS-RT entities returned.
+
+---
+
+### 🧠 Lessons Learned
+- It's better to start with a minimal working model before adding complexity. When I had trouble getting the backend to receive coordinate data, I simplified everything to a bare-bones client-server connection. Once I confirmed communication was working, I rebuilt the app on top of that foundation.
+- I spent a few days stuck because my backend server was using port 5000, which silently failed to work - possibly because it was in use by another process. Changing it to port 8080 immediately resolved the issue. This reinforced how even small environment-level details(like port conflicts) can block progress if overlooked.
+- I followed the official [GTFS-RT Node.js example](https://gtfs.org/documentation/realtime/language-bindings/nodejs/) to correctly decode binary protocol buffer data using gtfs-realtime-bindings.
+- I used the NTA’s [GTFS-RT API documentation](https://developer.nationaltransport.ie/api-details#api=gtfsr&operation=gtfsr-v2) to find the correct endpoint.
+---
+
+### 📍 Next Steps
+
+- Begin mapping `stopId` values to actual **latitude/longitude** using static GTFS `stops.txt`.
+- Display transit stops as **markers** on the map using real-time or static coordinates.
+- Add info windows to markers to show stop names and arrival/departure times.
+
+
